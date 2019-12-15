@@ -262,7 +262,7 @@ order by actor_id asc) as a inner join actors b  on a.actor_id = b.id;
 
 ##Dua ra 3 film co rank thap nhat: 
 
-select distinct rank,name  from movies a where 3 >= (select count(distinct rank) from movies b where b.rank <= a.rank) order by a.rank desc; 
+select distinct rank,name  from movies a where 3 >= (select count(distinct rank) from movies b where b.rank <= a.rank) order by a.rank desc;
 
 ##Dua ra dao dien co 2 phim tro len: 
 
