@@ -272,7 +272,7 @@ select d.id,concat(d.first_name,' ',d.last_name) as name ,count(m.movie_id) as s
 
 with daodien as (select d.id,concat(d.first_name,' ',d.last_name) as name ,count(m.movie_id) as so_phim 
     from directors d 
-    inner join movies_directors m on d.id = m.director_id group by d.id having count(m.movie_id) >=2), 
+    inner join movies_directors m on d.id = m.director_id group by d.id having count(m.movie_id) >=2)
 select id,name 
 from daodien 
 where id not in (select director_id from movies_directors r inner join movies m on m.id = r.movie_id where m.rank <= 7); 
