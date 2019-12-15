@@ -234,4 +234,106 @@ from (select concat(d.first_name," ",d.last_name) as name, max(m.rank) as max_ra
     group by md.director_id) t;
 
 
+
+##Dua ra ten dien vien co so phim dong nhieu nhat: 
+
+select concat(first_name," ",last_name) as actor_name 
+from actors 
+where film_count = (select max(film_count) from actors); 
+
+##Dua ra id cua dao dien va cac id phim lien quan: 
+
+select director_id, group_concat(movie_id, ' ') movie_id 
+from movies_directors 
+group by director_id; 
+
+##Dua ra id, ten film va ten dao dien phim do: 
+
+select a.id as id, a.name as movie_name, concat(c.first_name," ",c.last_name) as director_name 
+from movies a 
+    inner join movies_directors b on a.id = b.movie_id 
+    inner join directors c on b.director_id = c.id; 
+
+##Dua 10 ban ghi cuoi cung cua bang role va ten dien vien dien cua chung: 
+
+select a.actor_id, a.role, concat(b.first_name," ",b.last_name) as actor_name 
+from (select * from (select * from roles order by actor_id desc limit 10) sub 
+order by actor_id asc) as a inner join actors b  on a.actor_id = b.id; 
+
+##Dua ra 3 film co rank thap nhat: 
+
+select distinct rank,name  from movies a where 3 >= (select count(distinct rank) from movies b where b.rank <= a.rank) order by a.rank desc; 
+
+##Dua ra dao dien co 2 phim tro len: 
+
+select d.id,concat(d.first_name,' ',d.last_name) as name ,count(m.movie_id) as so_phim from directors d inner join movies_directors m on d.id = m.director_id group by d.id having count(m.movie_id) >=2; 
+
+##Dua ra dao dien co 2 phim ma phim co rank > 7: 
+
+with daodien as (select d.id,concat(d.first_name,' ',d.last_name) as name ,count(m.movie_id) as so_phim 
+    from directors d 
+    inner join movies_directors m on d.id = m.director_id group by d.id having count(m.movie_id) >=2), 
+select id,name 
+from daodien 
+where id not in (select director_id from movies_directors r inner join movies m on m.id = r.movie_id where m.rank <= 7); 
+
+##Tao ham de nhan biet phim co hay hay khong theo rank phim: 
+
+DELIMITER $$
+ 
+CREATE FUNCTION comment(
+    rank DECIMAL(10,2)
+) 
+RETURNS VARCHAR(20)
+DETERMINISTIC
+BEGIN
+    DECLARE comment VARCHAR(20);
+ 
+    IF rank > 8.0 THEN
+        SET comment = 'Exelent';
+    ELSEIF (rank >= 7.0 AND 
+            rank <= 8.0) THEN
+        SET comment = 'Good';
+    ELSEIF rank < 7.0 THEN
+        SET comment = 'Normal';
+    END IF;
+    -- return the customer level
+    RETURN (comment);
+END$$
+DELIMITER ;
+
+##Tao procedure de lay rank tu film roi in ra comment
+DELIMITER $$
+ 
+CREATE PROCEDURE check_film(
+    IN  movie_id INT,  
+    OUT commentoffilms VARCHAR(20)
+)
+BEGIN
+ 
+    DECLARE rank DEC(10,2) DEFAULT 0;
     
+    ##get rank of a film
+    SELECT 
+        rank 
+    INTO rank
+    FROM movies
+    WHERE 
+        id = movie_id
+    
+    ##call the function 
+    SET commentoffilms = comment(rank);
+END$$
+ 
+DELIMITER ;
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
