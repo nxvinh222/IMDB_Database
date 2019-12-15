@@ -1,6 +1,3 @@
-select * from actors order by film_count desc;
-select * from roles order by role;
-
 
 ###Tìm các diễn viên đóng vai Bartender
 select concat(first_name, ' ',last_name)	as 'Name',
@@ -37,16 +34,11 @@ group by a.id
 having count(name) >= 2
 order by first_name;
 
-select * from movies order by name;
-
 ### Tìm các phim nằm trong cả 2 thể loại là Action và Thriller
-select * from movies_genres order by movie_id;
 
-select concat(first_name, ' ',last_name)	as 'Actors\'s name',
-		m.name
+select m.name
 from roles r
 	inner join movies m on m.id = r.movie_id
-	inner join actors a on a.id = r.actor_id
     inner join movies_genres mg on m.id = mg.movie_id
 where mg.genre in ('Action', 'Thriller')
 group by m.name
@@ -75,12 +67,13 @@ where m.year < 2000
     
 ### Tìm danh sách và đếm số lượng những diễn viên của từng phim 
 select m.name,
-	   group_concat(a.first_name, ' ',a.last_name)	as 'Actors\'s name',
-       count(a.id) 									as 'Amount'
+	   group_concat(a.first_name, ' ',a.last_name separator ', ')	as 'Actors\'s name',
+       count(a.id) 													as 'Amount'
 from roles r
 	inner join movies m on m.id = r.movie_id
 	inner join actors a on a.id = r.actor_id
 group by m.id;
+
 
 ### Đạo diễn làm ra bộ phim có rank thấp thứ 2 được sản xuất sau năm 2000
 select concat(d.first_name, ' ',d.last_name)	as 'Directors\'s name',
