@@ -25,7 +25,7 @@ from roles r
 group by name;
 
 ### Các diễn viên có 2 phim trở lên đạt điểm 8 hoặc cao hơn và danh sách những phim đó
-select	concat(first_name, ' ',last_name)	as 'Actors\'s name',
+select	concat(first_name, ' ',last_name)	as 'Actors',
 	group_concat(name separator ', ')	as 'Movies'
 from roles r
 	inner join movies m on m.id = r.movie_id
@@ -51,7 +51,7 @@ select	*,
 	dense_rank() over (order by t.max_rank desc) as 'Overall rank'
 from 
 (select	d.id,
-	concat(d.first_name, ' ',d.last_name)	as 'Directors\'s name',		
+	concat(d.first_name, ' ',d.last_name)	as 'Directors',		
         m.name,
         max(m.rank)				as 'max_rank'
 from directors d
@@ -70,7 +70,7 @@ where	m.year < 2000
     
 ### Tìm danh sách và đếm số lượng những diễn viên của từng phim 
 select	m.name,
-	group_concat(a.first_name, ' ',a.last_name separator ', ')	as 'Actors\'s name',
+	group_concat(a.first_name, ' ',a.last_name separator ', ')	as 'Actors',
 	count(a.id)							as 'Amount'
 from roles r
 	inner join movies m on m.id = r.movie_id
@@ -79,7 +79,7 @@ group by m.id;
 
 
 ### Đạo diễn làm ra bộ phim có rank thấp thứ 2 được sản xuất sau năm 2000
-select	concat(d.first_name, ' ',d.last_name)	as 'Directors\'s name',
+select	concat(d.first_name, ' ',d.last_name)	as 'Directors',
 	m.name,
 	m.rank
 from directors d
@@ -92,7 +92,7 @@ offset 1;
 
 ### Các diễn viên không đóng phim Comedy
 
-select	concat(first_name, ' ',last_name)	as 'Actors\'s name',
+select	concat(first_name, ' ',last_name)	as 'Actors',
 		group_concat(distinct genre)			as 'Genres participate in'
 from roles r
 	inner join movies m on m.id = r.movie_id
