@@ -1,8 +1,8 @@
 ﻿
 ###Tìm các diễn viên đóng vai Bartender
 select	concat(first_name, ' ',last_name)	as 'Name',
-		name				as 'Movie name',
-		role
+	name					as 'Movie name',
+	role
 from roles r
 	inner join actors a on r.actor_id = a.id
 	inner join movies m on r.movie_id = m.id
