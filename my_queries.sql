@@ -9,7 +9,7 @@ from roles r
 where role like 'Bartender%';
 
 ### Tìm tên các role của từng phim
-select name, group_concat(role separator ', ') as "All role"
+select name, group_concat(role separator ', ') as 'All role'
 from roles r
 	inner join movies m on m.id = r.movie_id
 group by name;
