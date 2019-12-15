@@ -327,6 +327,9 @@ END$$
  
 DELIMITER ;
 
+##Đưa ra các phim có điểm thấp hơn avg
+select id,name,rank from movies where rank < (select avg(rank) from movies) order by rank asc;
+
 
  
 
