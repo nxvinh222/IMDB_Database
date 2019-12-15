@@ -93,7 +93,7 @@ offset 1;
 ### Các diễn viên không đóng phim Comedy
 
 select	concat(first_name, ' ',last_name)	as 'Actors',
-		group_concat(distinct genre)			as 'Genres participate in'
+	group_concat(distinct genre)			as 'Genres participate in'
 from roles r
 	inner join movies m on m.id = r.movie_id
 	inner join actors a on a.id = r.actor_id
