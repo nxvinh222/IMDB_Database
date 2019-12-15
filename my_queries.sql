@@ -16,8 +16,8 @@ group by name;
 
 ### Tìm số diễn viên nam và nữ của từng phim
 select	name,
-		sum(case when gender = 'M' then 1 else 0 end) as 'Male actors',
-		sum(case when gender = 'F' then 1 else 0 end) as 'Female actors'
+	sum(case when gender = 'M' then 1 else 0 end) as 'Male actors',
+	sum(case when gender = 'F' then 1 else 0 end) as 'Female actors'
 from roles r
 	inner join movies m on m.id = r.movie_id
 	inner join actors a on a.id = r.actor_id
