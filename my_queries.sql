@@ -52,7 +52,7 @@ from
 (select d.id,
 	    concat(d.first_name, ' ',d.last_name)	as 'Directors\'s name',		
         m.name,
-        max(m.rank)  as 'max_rank'
+        max(m.rank)  							as 'max_rank'
  from directors d
 	inner join movies_directors md on d.id = md.director_id
     inner join movies m on m.id = md.movie_id
@@ -90,7 +90,7 @@ offset 1;
 ### Các diễn viên không đóng phim Comedy
 
 select concat(first_name, ' ',last_name)	as 'Actors\'s name',
-	   group_concat(distinct genre)					as 'Genres participate in'
+	   group_concat(distinct genre)			as 'Genres participate in'
 from roles r
 	inner join movies m on m.id = r.movie_id
 	inner join actors a on a.id = r.actor_id
