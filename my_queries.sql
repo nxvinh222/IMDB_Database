@@ -9,7 +9,8 @@ from roles r
 where role like 'Bartender%';
 
 ### Tìm tên các role của từng phim
-select name, group_concat(role separator ', ') as 'All role'
+select	name,
+	group_concat(role separator ', ') as 'All role'
 from roles r
 	inner join movies m on m.id = r.movie_id
 group by name;
@@ -25,7 +26,7 @@ group by name;
 
 ### Các diễn viên có 2 phim trở lên đạt điểm 8 hoặc cao hơn và danh sách những phim đó
 select	concat(first_name, ' ',last_name)	as 'Actors\'s name',
-	group_concat(name separator '; ')	as 'Movies'
+	group_concat(name separator ', ')	as 'Movies'
 from roles r
 	inner join movies m on m.id = r.movie_id
 	inner join actors a on a.id = r.actor_id
