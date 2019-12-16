@@ -338,6 +338,17 @@ END$$
  
 DELIMITER ;
 
+## Dua ra cac phim co khoang cach giua cac nam gan nhau nhat
+select m1.name,
+       m2.name, 
+       abs(m1.year-m2.year) as khoang_cach
+from movies as m1, movies as m2 where m1.id != m2.id 
+and abs(m1.year-m2.year) 
+in (select min(abs(m1.year-m2.year)) 
+	from movies as m1,
+	     movies as m2 
+	     where m1.id!= m2.id);
+
 ##Đưa ra các phim có điểm thấp hơn avg
 select	id,
 	name,
