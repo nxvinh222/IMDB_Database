@@ -243,7 +243,8 @@ where film_count = (select max(film_count) from actors);
 
 ##Dua ra id cua dao dien va cac id phim lien quan: 
 
-select director_id, group_concat(movie_id, ' ') movie_id 
+select	director_id,
+	group_concat(movie_id, ' ') movie_id 
 from movies_directors 
 group by director_id; 
 
@@ -256,9 +257,12 @@ from movies a
 
 ##Dua 10 ban ghi cuoi cung cua bang role va ten dien vien dien cua chung: 
 
-select a.actor_id, a.role, concat(b.first_name," ",b.last_name) as actor_name 
+select	a.actor_id,
+	a.role,
+	concat(b.first_name," ",b.last_name) as actor_name 
 from (select * from (select * from roles order by actor_id desc limit 10) sub 
-order by actor_id asc) as a inner join actors b  on a.actor_id = b.id; 
+order by actor_id asc) as a
+	inner join actors b  on a.actor_id = b.id; 
 
 ##Dua ra 3 film co rank thap nhat: 
 
@@ -266,7 +270,12 @@ select distinct rank,name  from movies a where 3 >= (select count(distinct rank)
 
 ##Dua ra dao dien co 2 phim tro len: 
 
-select d.id,concat(d.first_name,' ',d.last_name) as name ,count(m.movie_id) as so_phim from directors d inner join movies_directors m on d.id = m.director_id group by d.id having count(m.movie_id) >=2; 
+select	d.id
+	concat(d.first_name,' ',d.last_name) as name ,
+	count(m.movie_id) as so_phim 
+from directors d 
+	inner join movies_directors m on d.id = m.director_id
+group by d.id having count(m.movie_id) >=2; 
 
 ##Dua ra dao dien co 2 phim ma phim co rank > 7: 
 
@@ -275,7 +284,9 @@ with daodien as (select d.id,concat(d.first_name,' ',d.last_name) as name ,count
     inner join movies_directors m on d.id = m.director_id group by d.id having count(m.movie_id) >=2)
 select id,name 
 from daodien 
-where id not in (select director_id from movies_directors r inner join movies m on m.id = r.movie_id where m.rank <= 7); 
+where id not in (select director_id from movies_directors r 
+			inner join movies m on m.id = r.movie_id
+		where m.rank <= 7); 
 
 ##Tao ham de nhan biet phim co hay hay khong theo rank phim: 
 
@@ -327,8 +338,23 @@ END$$
  
 DELIMITER ;
 
+## Dua ra cac phim co khoang cach giua cac nam gan nhau nhat
+select m1.name,
+       m2.name, 
+       abs(m1.year-m2.year) as khoang_cach
+from movies as m1, movies as m2 where m1.id != m2.id 
+and abs(m1.year-m2.year) 
+in (select min(abs(m1.year-m2.year)) 
+	from movies as m1,
+	     movies as m2 
+	     where m1.id!= m2.id);
+
 ##Đưa ra các phim có điểm thấp hơn avg
-select id,name,rank from movies where rank < (select avg(rank) from movies) order by rank asc;
+select	id,
+	name,
+	rank from movies 
+where rank < (select avg(rank) from movies)
+order by rank asc;
 
 
  
