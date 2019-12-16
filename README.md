@@ -5,6 +5,6 @@ Final project Database lab - 110628
 - Database và dữ liệu:
   `IMDB.sql`
 - Danh sách truy vấn:
-  `my_queries`
+  `my_queries.sql`
 - Báo cáo:
   `Report.pdf`
